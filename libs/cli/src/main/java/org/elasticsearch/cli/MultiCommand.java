@@ -63,6 +63,7 @@ public class MultiCommand extends Command {
 
     @Override
     protected void execute(Terminal terminal, OptionSet options) throws Exception {
+        System.out.println(System.currentTimeMillis() + ": EXECUTING");
         if (subcommands.isEmpty()) {
             throw new IllegalStateException("No subcommands configured");
         }
@@ -76,6 +77,7 @@ public class MultiCommand extends Command {
         }
         subcommand.mainWithoutErrorHandling(Arrays.copyOfRange(args, 1, args.length), terminal);
     }
+
 
     @Override
     public void close() throws IOException {

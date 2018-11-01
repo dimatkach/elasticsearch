@@ -34,9 +34,11 @@ public class KeyStoreCli extends LoggingAwareMultiCommand {
         subcommands.put("add", new AddStringKeyStoreCommand());
         subcommands.put("add-file", new AddFileKeyStoreCommand());
         subcommands.put("remove", new RemoveSettingKeyStoreCommand());
+        System.out.println(System.currentTimeMillis() + ": CONSTRUCTED");
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println(System.currentTimeMillis() + ": START");
         exit(new KeyStoreCli().main(args, Terminal.DEFAULT));
     }
 

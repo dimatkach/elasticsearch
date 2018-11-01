@@ -38,21 +38,28 @@ class ListKeyStoreCommand extends EnvironmentAwareCommand {
 
     ListKeyStoreCommand() {
         super("List entries in the keystore");
+        System.out.println(System.currentTimeMillis() + ": CREATED COMMAND");
     }
 
     @Override
     protected void execute(Terminal terminal, OptionSet options, Environment env) throws Exception {
+        System.out.println(System.currentTimeMillis() + ": BEGIN LOAD");
         KeyStoreWrapper keystore = KeyStoreWrapper.load(env.configFile());
+        System.out.println(System.currentTimeMillis() + ": LOADED");
         if (keystore == null) {
             throw new UserException(ExitCodes.DATA_ERROR, "Elasticsearch keystore not found. Use 'create' command to create one.");
         }
 
         keystore.decrypt(new char[0] /* TODO: prompt for password when they are supported */);
+        System.out.println(System.currentTimeMillis() + ": DECRYPTED");
 
         List<String> sortedEntries = new ArrayList<>(keystore.getSettingNames());
+        System.out.println(System.currentTimeMillis() + ": GOT ENTRIES");
         Collections.sort(sortedEntries);
+        System.out.println(System.currentTimeMillis() + ": SORTED");
         for (String entry : sortedEntries) {
             terminal.println(entry);
         }
+        System.out.println(System.currentTimeMillis() + ": FINISHED");
     }
 }

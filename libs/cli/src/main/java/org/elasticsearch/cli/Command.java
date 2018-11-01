@@ -88,6 +88,7 @@ public abstract class Command implements Closeable {
 
         try {
             mainWithoutErrorHandling(args, terminal);
+            System.out.println(System.currentTimeMillis() + ": DONE");
         } catch (OptionException e) {
             printHelp(terminal);
             terminal.println(Terminal.Verbosity.SILENT, "ERROR: " + e.getMessage());
@@ -107,12 +108,14 @@ public abstract class Command implements Closeable {
      */
     void mainWithoutErrorHandling(String[] args, Terminal terminal) throws Exception {
         final OptionSet options = parser.parse(args);
+        System.out.println(System.currentTimeMillis() + ": PARSED OPTIONS");
 
         if (options.has(helpOption)) {
             printHelp(terminal);
             return;
         }
 
+        System.out.println(System.currentTimeMillis() + ": NO-HELP");
         if (options.has(silentOption)) {
             terminal.setVerbosity(Terminal.Verbosity.SILENT);
         } else if (options.has(verboseOption)) {
@@ -120,6 +123,7 @@ public abstract class Command implements Closeable {
         } else {
             terminal.setVerbosity(Terminal.Verbosity.NORMAL);
         }
+        System.out.println(System.currentTimeMillis() + ": SET VERBOSITY");
 
         execute(terminal, options);
     }
